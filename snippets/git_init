@@ -1,0 +1,14 @@
+# Creates a GPLv3 repository
+ 
+git init -b master
+curl https://www.gnu.org/licenses/gpl-3.0.md > LICENSE.md
+git add LICENSE.md
+git commit -m "init repo with GPLv3"
+
+# Optional remotes
+
+git remote add gitea https://gitea.example.com/$USER/$REPO.git
+git push -u gitea master
+
+git remote add github https://github.com/$USER/$REPO.git # use suitable API key instead of password
+git push -u github master
