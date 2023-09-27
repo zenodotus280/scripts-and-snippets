@@ -1,0 +1,6 @@
+# useful for new installations of Arch including LXCs
+
+pacman-key --init
+pacman-key --populate archlinux
+pacman -Syy archlinux-keyring --noconfirm
+pacman -Syyu --noconfirm
