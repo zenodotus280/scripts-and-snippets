@@ -25,7 +25,11 @@ if [ "$1" = "--init" ]; then
     
     # set up SFTP
     addgroup sftp
-    sed -i -E 's/^#?(PermitRootLogin\s+)(yes|without-password|prohibit-password)/\1no/' /etc/ssh/sshd_config
+    echo "WARNING: This script will disable root login via password. SSH key authentication will be required to regain access."
+    echo "Please ensure that you have an SSH certificate installed for the root user before proceeding."
+    echo "You can use 'ssh-copy-id root@<hostname>' to install the SSH key. Aborting if you haven't set up the key."
+    read -p "Press ENTER to continue or Ctrl+C to abort." 
+    sed -i -E 's/^#?(PermitRootLogin\s+)(yes|without-password|prohibit-password)/\1prohibit-password/' /etc/ssh/sshd_config
     {
         echo ""
         echo "Match group sftp"
