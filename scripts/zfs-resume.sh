@@ -17,7 +17,7 @@ TOKEN=$(zfs get -H -o value receive_resume_token $TARGET_ZPOOL/$TARGET_DATASET)
 if [ -n "$TOKEN" ] && [ "$TOKEN" != "-" ]; then
     if command -v mbuffer &> /dev/null; then
         # mbuffer can rate limit; pv not needed if using the -v option on the sending side.
-        ssh $SOURCE_SSH "zfs send -v -t $TOKEN" | mbuffer -q -s 128k -m 5G -r $BANDWIDTH_LIMIT | zfs recv -Fs $SOURCE_POOL/$SOURCE_DATASET
+        ssh $SOURCE_SSH "zfs send -v -t $TOKEN" | mbuffer -q -s 128k -m 5G -r $BANDWIDTH_LIMIT | zfs recv -Fs $TARGET_ZPOOL/$TARGET_DATASET
     else
         ssh $SOURCE_SSH "zfs send -v -t $TOKEN" | zfs recv -Fs $TARGET_ZPOOL/$TARGET_DATASET
     fi
