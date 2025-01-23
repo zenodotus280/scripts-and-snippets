@@ -17,7 +17,7 @@ apt install syncthing
 
 adduser syncthing
 systemctl enable syncthing@syncthing.service --now
-systemctl status syncthing@syncthing.service | grep GUI
+while ! systemctl status syncthing@syncthing.service | grep -q "GUI"; do sleep 1; done
 sed -i -e 's/<address>127\.0\.0\.1:8384<\/address>/<address>0.0.0.0:8384<\/address>/' /home/syncthing/.local/state/syncthing/config.xml
 systemctl restart syncthing@syncthing.service --now
 
@@ -26,3 +26,4 @@ wget -O /tmp/netdata-kickstart.sh https://my-netdata.io/kickstart.sh && sh /tmp/
 
 # Install Tailscale
 curl -fsSL https://tailscale.com/install.sh | sh
+tailscale up

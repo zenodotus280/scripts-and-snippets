@@ -34,7 +34,7 @@ rsync -hPa --delete "$SOURCE_DIR/" "$MOUNT_POINT/"
 if [ $? -eq 0 ]; then
     echo "Mirroring completed successfully."
 else
-    echo "Mirroring failed."
+    echo "Mirroring aborted early."
     exit 1
 fi
 
