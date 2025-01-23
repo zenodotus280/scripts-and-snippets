@@ -1,0 +1,16 @@
+## Config
+
+host *
+    StrictHostKeyChecking no # to skip the error when hosts change
+    IdentitiesOnly yes # to prevent auto-trying all keys
+
+host example
+        Hostname example.com
+        User zenodo
+        IdentityFile ~/.ssh/zenodo
+        Port 50022
+
+## Commands
+
+# To remove old entries:
+ssh-keygen -f "/root/.ssh/known_hosts" -R "$example.home.arpa"
