@@ -4,6 +4,23 @@
 # Set Up SSHFS Access with Restricted SSH Key
 # ============================================
 
+# ---------------------------
+# Configuration Variables
+# ---------------------------
+# NOTE: You must set these before running the script.
+REMOTE_USER=""
+REMOTE_HOST=""
+
+HOSTNAME=$(hostname)
+KEY_NAME="id_sshfs_${HOSTNAME}"
+KEY_COMMENT="Restricted SSHFS access key for ${REMOTE_USER}@${REMOTE_HOST} from ${HOSTNAME}"
+
+REMOTE_PATH=""
+LOCAL_MOUNT_POINT=""
+
+SSH_DIR="/root/.ssh"
+KEY_PATH="${SSH_DIR}/${KEY_NAME}"
+
 # The lines below ensure the script stops on errors, 
 # undefined variables, or failed pipes. This prevents silent failures.
 set -euo pipefail
@@ -32,23 +49,6 @@ fi
 echo
 echo "Greetings. I see you are root. APT is available. Everything is proceeding smoothly..."
 sleep 1
-
-# ---------------------------
-# Configuration Variables
-# ---------------------------
-# NOTE: You must set these before running the script.
-REMOTE_USER=""
-REMOTE_HOST=""
-
-HOSTNAME=$(hostname)
-KEY_NAME="id_sshfs_${HOSTNAME}"
-KEY_COMMENT="Restricted SSHFS access key for ${REMOTE_USER}@${REMOTE_HOST} from ${HOSTNAME}"
-
-REMOTE_PATH=""
-LOCAL_MOUNT_POINT=""
-
-SSH_DIR="/root/.ssh"
-KEY_PATH="${SSH_DIR}/${KEY_NAME}"
 
 # ----------------------------------------
 # Step 0: Summarize & Confirm with the User
@@ -166,14 +166,14 @@ generate_fstab() {
     echo "=== Generating Example /etc/fstab Entry ==="
     FSTAB_FILE="sshfs_example_fstab.txt"
     cat <<EOL > "${FSTAB_FILE}"
-# SSHFS mount from ${REMOTE_HOST}
-/#--------------------------------------------------------------------#
+# SSHFS mount for ${REMOTE_USER}@${REMOTE_HOST}
+#--------------------------------------------------------------------#
 # Why these options?
 # - defaults: basic default mount options
 # - _netdev: ensures mounting is deferred until network is up
 # - allow_other: let other local users access the mount
 # - umask=0002: typically sets new files to 664 and dirs to 775
-# - IdentityFile: use the restricted SSH key we just created
+# - IdentityFile: use the restricted SSH key created by sshfs-client-setup.sh
 # - StrictHostKeyChecking=no: ignoring host key checks - tradeoff for convenience
 #--------------------------------------------------------------------#
 ${REMOTE_USER}@${REMOTE_HOST}:${REMOTE_PATH} ${LOCAL_MOUNT_POINT} fuse.sshfs \
