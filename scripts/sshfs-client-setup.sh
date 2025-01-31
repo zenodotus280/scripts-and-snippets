@@ -89,10 +89,10 @@ setup_sshfs() {
     echo "=== SSHFS Setup Completed Successfully ==="
     echo
     echo "I have finished all tasks. You may now review and follow these final steps:"
-    echo "  1. Create your local mount point if needed:  mkdir -p ${LOCAL_MOUNT_POINT}"
-    echo "  2. Backup your /etc/fstab:                 cp /etc/fstab /etc/fstab.backup"
-    echo "  3. Append the example entry to /etc/fstab: cat sshfs_example_fstab.txt >> /etc/fstab"
-    echo "  4. Mount all filesystems:                   mount -a"
+    echo "  1. Create your local mount point if needed: mkdir -p ${LOCAL_MOUNT_POINT}"
+    echo "  2. Backup your /etc/fstab:                  cp /etc/fstab /etc/fstab.backup"
+    echo "  3. Append the example entry to /etc/fstab:  cat sshfs_example_fstab.txt >> /etc/fstab"
+    echo "  4. Mount all filesystems:                   systemctl daemon-reload && mount -a"
     echo "  5. Check it's mounted properly:             df -h | grep \$(basename ${LOCAL_MOUNT_POINT})"
     echo
 }
